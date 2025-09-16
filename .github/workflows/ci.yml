@@ -1,0 +1,12 @@
+name: CI - PR Title Check
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce Jira Ticket in PR Title
+        run: |
+          echo "Checking PR title: ${{ github.event.pull_request.title }}"
+          echo "${{ github.event.pull_request.title }}" | grep -Eq 'BOX-[0-9]+' || (echo "❌ PR title must include a Jira ticket reference like 'BOX-123'."; exit 1)
